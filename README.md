@@ -48,57 +48,144 @@ For example, if the directories to be analyzed are named "temp" or "temp2", the 
 docker compose up -d
 docker compose exec renas bash
 ```
-5. please see "Reproduction" below.
+5. See "Usage" below.
 
 6. Stop the tool
     - `docker compose down`
 
 
-## Reproduction
-
-The projects we used are as follows:
-<details><summary>17 projects</summary>
-
-**dataset which uses preliminary research (Section 3-E in paper)**
-1. [baasbox](https://github.com/baasbox/baasbox.git)
-2. [cordova-plugin-local-notifications](https://github.com/katzer/cordova-plugin-local-notifications)
-3. [morphia](https://github.com/mongodb/morphia.git)
-4. [spring-integration](https://github.com/spring-projects/spring-integration.git)
-
-**Automatically identified dataset**
-1. [testng](https://github.com/cbeust/testng.git)
-2. [jackson-databind](https://github.com/FasterXML/jackson-databind.git)
-3. [restli](https://github.com/linkedin/rest.li.git)
-4. [activiti](https://github.com/Activiti/Activiti.git)
-5. [thunderbird-android](https://github.com/k9mail/k-9.git)
-6. [genie](https://github.com/Netflix/genie)
-7. [eucalyptus](https://github.com/eucalyptus/eucalyptus)
-8. [graylog2-server](https://github.com/Graylog2/graylog2-server.git)
-9. [core](https://github.com/wicketstuff/core.git)
-10. [gnucash-android](https://github.com/codinguser/gnucash-android)
-11. [giraph](https://github.com/apache/giraph.git)
-
-**Manually validated dataset**
-1. [ratpack](https://github.com/ratpack/ratpack)
-2. [argouml](https://github.com/argouml-tigris-org/argouml)
-
-</details>
 
 
-1. As shown in "Setup", you create directories for the above 17 projects and place each repository in the repo.
+## Usage
 
-2. Place manualValidation.csv in the **ratpack** and **argouml** directories. This CSV file is located in Dataset/projects/{ratpack, argouml}
-
-3. Run the following commands in order (from top to bottom: preliminary investigation, evaluation with the automatically identified dataset, evaluation with the manually validated dataset).
+### Perform Recommendation
+1. Enter the names of projects you'd like to recommend in projects.txt, separated by lines, as shown below.
 ```
-bash renas/preliminaryResearch.sh
-bash renas/researchQuestion.sh
-bash renas/researchQuestionManually.sh
+temp
+temp2
+temp3
 ```
 
-4. The results are placed in the result directory.
-    - "Output File" contains a description of each file.
+2. Create projects/\*\*projects name\*\*/rename.json and write the renames.  
+Recommendations are made based on the renames specified here. If you'd like to make recommendations based on the renames obtained from RefactoringMiner, there is no need to create it.  
+The way to write rename.json is as follows.
+```
+[
+    {
+        "commit":"34ee18a88a29d45ada4138e5e8f8b2e11143203c",
+        "oldname":"render",
+        "newname":"call",
+        "typeOfIdentifier":"MethodName",
+        "line":96,
+        "files":"ratpack-core\/src\/main\/groovy\/org\/ratpackframework\/templating\/GroovyTemplateRenderer.java"
+    },
+    {
+        "commit":"6872a6f3cdf4100dee5d5e902a7cdf7a199218c0",
+        "oldname":"byteBuf",
+        "newname":"buffer",
+        "typeOfIdentifier":"ParameterName",
+        "line":322,
+        "files":"ratpack-core\/src\/main\/java\/ratpack\/http\/internal\/DefaultResponse.java"
+    },
+    {
+        ...
+    }
+]
+```
+- "commit"  
+    Hash of commit
+- "oldname"  
+    identifier before renaming
+- "newname"
+    identifier after renaming
+- "typeOfIdentifier"
+    Type of Identifier  
+    you can specify "ClassName", "FieldName", "MethodName", "ParameterName" and "VariableName"
+- "line"
+    Line where the identifier is defined
+- "files"
+    The path from "repo" to the file where the identifier is defined
 
+
+
+
+3. Run `sh renas/execRenas`. you can get "projects/\*\*project name\*\*/recommend.json.gz".
+
+### Evaluation
+Create co-renamed sets from projects/\*\*projects name\*\*/rename.json and evaluate.
+1. Run `python3 -m renas.evaluator **option** projects.txt`.  
+The available options are:
+
+| option | description |
+| ---- | ---- |
+| -pre | preliminary research. output is result/preliminary |
+| -rq1 | research question 1. output is result/rq1|
+| -rq2 | research question 2. output is result/rq2 |
+| -sim | research similarity. output is result/similarity |
+
+For example、if you'd like to research similarity and RQ1, you execution below command.  
+`python3 -m renas.evalutor -sim -rq1 projects.txt`
+
+
+#### similarity
+Investigate the similarity of identifiers that are thought to have been co-renamed. (Section 3-E (1) in our paper)
+
+#### preliminary research
+Investigate the performance of the proposed approach for each parameter (α) and threshold (β). (Section 3-E (3) in our paper)
+
+#### RQ1  
+RQ1: How well does the proposed approach perform?   
+Evaluate the performance of our approach (RENAS) and other approaches (None, Relation, Relation + Normalize).
+The evaluation metrics are Precision, Recall, and F1-measure.
+
+#### RQ2
+RQ2: How does the performance vary depending on how to prioritize?  
+Evaluate whether priorities should be used, by taking into account both relationship and similarity.
+Evaluation metrics are MAP (Mean Average Precision), MRR (Mean Reciprocal Rank), and top-{1, 5, 10} Recall.
+
+
+## Source Files
+
+### renas/repository_analyzer.py  
+By running the following command, the renames are extracted from RefactoringMiner. The relationships of source code are analyzed, and the identifiers are normalized.
+`python3 -m renas.repository_analyzer projects/**project name**`  
+Input:
+- repository which you'd like to analyze
+
+Output:
+- projects/\*\*project name\*\*/archives/\*\*commit id\*\*/exTable.csv.gz
+- projects/\*\*project name\*\*/archives/\*\*commit id\*\*/classRecord.json.gz
+- projects/\*\*project name\*\*/archives/\*\*commit id\*\*/record.json.gz
+- projects/\*\*project name\*\*/goldset.json.gz
+
+The above programs primarily involve the below files.
+- renas/refactoringminer.py  
+    Run RefacotoringMiner
+- renas/refactoring/rename_extractor.py  
+    Extract rename refactorings from RefactoringMiner
+- renas/relationship/analyzer.py  
+Analyze the relationships of source code where rename refactoring was done and normalize identifiers.
+    - AbbrExpansion/out/ParseCode-all.jar
+        - parse relationships using AST (The source code is in AbbrExpansion/code/ParseCode)
+    - AbbrExpansion/code/SemanticExpand/out/libs/SemanticExpand-all.jar
+        - Abbreviation expansion using KgExpander (The source code is in AbbrExpansion/code/SemanticExpand)
+    - renas/relationship/normalize.py
+        - Remove identifier inflections
+
+### renas/recommendation.py
+By running the following command, four approaches (None, Relation, Relation + Normalize, RENAS) are recommended based on the renaming. 
+`python3 -m renas.recommendation projects/**project name**`
+
+Input:
+- projects/\*\*project name\*\*/archives/\*\*commit id\*\*/exTable.csv.gz
+- projects/\*\*project name\*\*/archives/\*\*commit id\*\*/classRecord.json.gz
+- projects/\*\*project name\*\*/archives/\*\*commit id\*\*/record.json.gz
+- projects/\*\*project name\*\*/goldset.json.gz
+
+Output:
+- projects/\*\*project name\*\*/recommend.json.gz
+
+The above programs primarily involve the "renas/approaches/" directory.
 
 
 ## Output File
@@ -281,6 +368,22 @@ Below is the recommend_information.
 |postag| POStag for each word
 |normalized|　Normalized identifier |
 |parameterOverload| The relationship "parameterOverload"|
+
+### projects/**project name**/archives/**commit id**/classRecord.json.gz
+展開された省略語をファイルごとに記録したファイル。例えばtemp.javaでbufがbufferに4回展開された場合以下のようになる。
+A file that records the expanded abbreviations for each file. 
+For example, if "buf" is expanded to buffer four times in temp.java, it shows below.
+```
+{
+"temp.java": 
+    {
+    "buf==buffer":4
+    }
+}
+```
+
+### projects/**project name**/archives/**commit id**/record.json.gz
+A file that records the abbreviations expanded within the project.
 
 ## Related Publications
 
