@@ -173,7 +173,7 @@ Analyze the relationships of source code where rename refactoring was done and n
         - Remove identifier inflections
 
 ### renas/recommendation.py
-By running the following command, four approaches (None, Relation, Relation + Normalize, RENAS) are recommended based on the renaming. 
+By running the following command, four approaches (None, Relation, Relation + Normalize, RENAS) are recommended based on the renaming.  
 `python3 -m renas.recommendation projects/**project name**`
 
 Input:
