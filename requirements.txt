@@ -1,0 +1,8 @@
+pandas
+numpy
+simplejson
+nltk
+pattern
+matplotlib
+japanize-matplotlib
+pytrec_eval

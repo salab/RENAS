@@ -1,0 +1,10 @@
+version: '3'
+services:
+  renas:
+    restart: always
+    build: .
+    container_name: 'RENAS'
+    working_dir: '/work'
+    tty: true
+    volumes:
+      - .:/work
