@@ -15,8 +15,16 @@
 
 ### Setup
 
+1. Get the source code for relationship analysis from the following URL and place it under Renas.
+https://github.com/salab/AbbrExpansion  
+This will result in a directory structure like this:
+<pre>
+  Renas
+  ├ AbbrExpansion
+  │  ├ code
+  │     ├ ... </pre>
 
-1. Create a directory with the name of the project to be analyzed in the **projects** directory.
+2. Create a directory with the name of the project to be analyzed in the **projects** directory.
 For example, if the directories to be analyzed are named "temp" or "temp2", the directory structure will be as follows:
 <pre>
   Renas
@@ -24,7 +32,7 @@ For example, if the directories to be analyzed are named "temp" or "temp2", the 
   │  ├ temp
   │  ├ temp2 </pre>
 
-2. Create a directory called **repo** in the created directory and place the repository you want to analyze in it.
+3. Create a directory called **repo** in the created directory and place the repository you want to analyze in it.
 
 <pre>
   renas
@@ -42,17 +50,66 @@ For example, if the directories to be analyzed are named "temp" or "temp2", the 
   │  │    ├ fee</pre>
 
 
-3. Start docker
-4. Run the following command.
+4. Start docker
+5. Run the following command.
 ```
 docker compose up -d
 docker compose exec renas bash
 ```
-5. See "Usage" below.
+6. Use our tool
+    -  if you'd like to reproduce our result, please see "Reproduction" below.
+    -  if you'd like to use our tools, See "Usage" below.
 
-6. Stop the tool
+7. Stop the tool
     - `docker compose down`
 
+
+## Reproduction
+
+The projects we used are as follows:
+<details><summary>17 projects</summary>
+
+() indicates the latest commit.
+
+**dataset which uses preliminary research (Section 3-E in paper)**
+1. [baasbox](https://github.com/baasbox/baasbox.git) (42a265288906070f031ce9e0e24aeeac26c3a952)
+2. [cordova-plugin-local-notifications](https://github.com/katzer/cordova-plugin-local-notifications) (eb0ac58a8a8a9b4602f9c795c285abe089d5d10f)
+3. [morphia](https://github.com/mongodb/morphia.git) (cd0426c32b7c8426fbbcd4cbbfad3596246265f0)
+4. [spring-integration](https://github.com/spring-projects/spring-integration.git) (6207bca3bd74cee3f37e2e9df18156a89aa90ab9)
+
+**Automatically identified dataset**
+1. [testng](https://github.com/cbeust/testng.git) (d01a4f1079e61b3f6990ba55a1ef1138266baedd)
+2. [jackson-databind](https://github.com/FasterXML/jackson-databind.git) (bd9bf1b89195051a127d0a946aaf95259058c0e8)
+3. [restli](https://github.com/linkedin/rest.li.git) (1d43edee1a9277324f75b4e90362dd6dc367ecdf)
+4. [activiti](https://github.com/Activiti/Activiti.git) (d9277212b01279079cfe71465e16398310d1c216)
+5. [thunderbird-android](https://github.com/k9mail/k-9.git)     (cba9ca31aa6bdb8911a2787afc145c27cf366bec)
+6. [genie](https://github.com/Netflix/genie) (e0c62669f1016522ea1faaf8b1a18833c65cda0e)
+7. [eucalyptus](https://github.com/eucalyptus/eucalyptus) (95e0cef57eba3da26ed798317900da4eeac44263)
+8. [graylog2-server](https://github.com/Graylog2/graylog2-server.git) (80a9e8e69f0635e489b076c7dac62a7ef45c409f)
+9. [core](https://github.com/wicketstuff/core.git) (49cada01fc2b71646ec36b1215d805c1c3a3b198)
+10. [gnucash-android](https://github.com/codinguser/gnucash-android) (2ad44adf6dd846aabf8883d41be3719b723bf4f1)
+11. [giraph](https://github.com/apache/giraph.git) (14a74297378dc1584efbb698054f0e8bff4f90bc)
+
+**Manually validated dataset**
+1. [ratpack](https://github.com/ratpack/ratpack) (29434f7ac6fd4b36a4495429b70f4c8163100332)
+2. [argouml](https://github.com/argouml-tigris-org/argouml) (be952fcfa77451e594a41779db83e1a0d7221002)
+
+</details>
+
+
+1. As shown in "Setup", you create directories for the above 17 projects and place each repository in the repo.
+
+2. Place manualValidation.csv in the **ratpack** and **argouml** directories. This CSV file is located in Dataset/projects/{ratpack, argouml}
+
+3. Run the following commands in order (from top to bottom: preliminary investigation, evaluation with the automatically identified dataset, evaluation with the manually validated dataset).
+```
+bash renas/preliminaryResearch.sh
+bash renas/researchQuestion.sh
+bash renas/researchQuestionManually.sh
+```
+
+4. The results are placed in the result directory.
+    - "Output File" contains a description of each file.
 
 
 
@@ -66,7 +123,7 @@ temp2
 temp3
 ```
 
-2. Create projects/\*\*projects name\*\*/rename.json and write the renames.  
+2. Create "projects/\*\*projects name\*\*/rename.json" and write the renames.  
 Recommendations are made based on the renames specified here. If you'd like to make recommendations based on the renames obtained from RefactoringMiner, there is no need to create it.  
 The way to write rename.json is as follows.
 ```
@@ -107,12 +164,10 @@ The way to write rename.json is as follows.
     The path from "repo" to the file where the identifier is defined
 
 
-
-
 3. Run `sh renas/execRenas`. you can get "projects/\*\*project name\*\*/recommend.json.gz".
 
 ### Evaluation
-Create co-renamed sets from projects/\*\*projects name\*\*/rename.json and evaluate.
+Create co-renamed sets from "projects/\*\*projects name\*\*/rename.json" and evaluate.
 1. Run `python3 -m renas.evaluator **option** projects.txt`.  
 The available options are:
 
@@ -147,7 +202,7 @@ Evaluation metrics are MAP (Mean Average Precision), MRR (Mean Reciprocal Rank),
 ## Source Files
 
 ### renas/repository_analyzer.py  
-By running the following command, the renames are extracted from RefactoringMiner. The relationships of source code are analyzed, and the identifiers are normalized.
+By running the following command, the renames are extracted from RefactoringMiner. The relationships of source code are analyzed, and the identifiers are normalized.  
 `python3 -m renas.repository_analyzer projects/**project name**`  
 Input:
 - repository which you'd like to analyze
@@ -158,7 +213,7 @@ Output:
 - projects/\*\*project name\*\*/archives/\*\*commit id\*\*/record.json.gz
 - projects/\*\*project name\*\*/goldset.json.gz
 
-The above programs primarily involve the below files.
+The above programs mainly involve the below files.
 - renas/refactoringminer.py  
     Run RefacotoringMiner
 - renas/refactoring/rename_extractor.py  
@@ -186,6 +241,7 @@ Output:
 - projects/\*\*project name\*\*/recommend.json.gz
 
 The above programs primarily involve the "renas/approaches/" directory.
+
 
 
 ## Output File
@@ -368,22 +424,6 @@ Below is the recommend_information.
 |postag| POStag for each word
 |normalized|　Normalized identifier |
 |parameterOverload| The relationship "parameterOverload"|
-
-### projects/**project name**/archives/**commit id**/classRecord.json.gz
-展開された省略語をファイルごとに記録したファイル。例えばtemp.javaでbufがbufferに4回展開された場合以下のようになる。
-A file that records the expanded abbreviations for each file. 
-For example, if "buf" is expanded to buffer four times in temp.java, it shows below.
-```
-{
-"temp.java": 
-    {
-    "buf==buffer":4
-    }
-}
-```
-
-### projects/**project name**/archives/**commit id**/record.json.gz
-A file that records the abbreviations expanded within the project.
 
 ## Related Publications
 

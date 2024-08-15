@@ -1,8 +1,0 @@
-.DS_Store
-
-.gradle
-**/build/
-!src/**/build/
-
-.project
-.classpath
