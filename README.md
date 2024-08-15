@@ -425,6 +425,21 @@ Below is the recommend_information.
 |normalized|　Normalized identifier |
 |parameterOverload| The relationship "parameterOverload"|
 
+### projects/**project name**/archives/**commit id**/classRecord.json.gz
+A file that records the expanded abbreviations for each file. 
+For example, if "buf" is expanded to buffer four times in temp.java, it shows below.
+```
+{
+"temp.java": 
+    {
+    "buf==buffer":4
+    }
+}
+```
+
+### projects/**project name**/archives/**commit id**/record.json.gz
+A file that records the abbreviations expanded within the project.
+
 ## Related Publications
 
 If you use or mention this tool in a scientific publication, we would appreciate citations to the following paper:
