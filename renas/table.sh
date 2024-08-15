@@ -4,9 +4,10 @@ set -e
 archive=${1%/}
 
 shift $(expr $OPTIND - 1) # remove option args
-JARPATH="AbbrExpansion/out"
-PARSECODE="ParseCode-all.jar"
-SEMANTICEXPAND="SemanticExpand-all.jar"
+JARPARSEPATH="AbbrExpansion/code/ParseCode"
+JARSEMANTICPATH="AbbrExpansion/code/SemanticExpand"
+PARSECODE="out/libs/ParseCode-all.jar"
+SEMANTICEXPAND="out/libs/SemanticExpand-all.jar"
 IDTABLE="idTable.csv"
 EXTABLE="exTable.csv"
 RECORD="record.json"
@@ -17,20 +18,27 @@ echo "${archive}"
 echo "start creating table."
 
 # remove jar signature
-if [ -n "$(zipinfo -1 ${JARPATH}/${PARSECODE} | grep META-INF/.*SF)" ]; then
-    echo "rm META-INF/*SF"
-    zip -d "${JARPATH}/${PARSECODE}" 'META-INF/*SF'
+#if [ -n "$(zipinfo -1 ${JARPATH}/${PARSECODE} | grep META-INF/.*SF)" ]; then
+#    echo "rm META-INF/*SF"
+#    zip -d "${JARPATH}/${PARSECODE}" 'META-INF/*SF'
+#fi
+
+if [ ! -e "${JARPARSEPATH}/${PARSECODE}" ]; then
+    gradle shadowJar -b "${JARPARSEPATH}/build.gradle"
+fi
+if [ ! -e "${JARSEMANTICPATH}/${SEMANTICEXPAND}" ]; then
+    gradle shadowJar -b "${JARSEMANTICPATH}/build.gradle"
 fi
 
 # create table
 echo "${archive} Run ParseCode"
 repo="${archive}/repo"
 # parse code
-java -jar "${JARPATH}/${PARSECODE}" "${archive}" 2>/dev/null
+java -jar "${JARPARSEPATH}/${PARSECODE}" "${archive}" 2>/dev/null
 
 # semantic expand
-cd "AbbrExpansion/code/SemanticExpand"
-java -jar "out/libs/${SEMANTICEXPAND}" "/work/${archive}"
+cd "${JARSEMANTICPATH}"
+java -jar "${SEMANTICEXPAND}" "/work/${archive}"
 cd ../../..
 # normalize
 python3 -m renas.relationship.normalize "${archive}"
