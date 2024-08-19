@@ -1,0 +1,5 @@
+*.pyc
+AbbrExpansion/*
+projects/*
+.DS_STORE
+result/*
