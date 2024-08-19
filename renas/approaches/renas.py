@@ -17,6 +17,7 @@ class Renas(Approach):
     def recommend(self, table_data: ExTable, trigger: dict):
         trigger_data = table_data.selectDataByRow(trigger)
         if trigger_data is None:
+            self.rename = None
             return []
         trigger_data_dict_copy = deepcopy(trigger_data.to_dict())
         trigger_rename = Rename(trigger_data_dict_copy, normalize=True)
