@@ -11,6 +11,7 @@
 - docker compose plugin v2
   - Confirmed working at v2.19.1
   - Docker can use at least **14GB** of memory
+- if you reproduce our result, you need **60GB** of free disk space at least
 
 
 ### Setup
