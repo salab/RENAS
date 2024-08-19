@@ -1,0 +1,17 @@
+baasbox https://github.com/baasbox/baasbox.git 42a265288906070f031ce9e0e24aeeac26c3a952
+cordova-plugin-local-notifications https://github.com/katzer/cordova-plugin-local-notifications eb0ac58a8a8a9b4602f9c795c285abe089d5d10f
+morphia https://github.com/mongodb/morphia.git cd0426c32b7c8426fbbcd4cbbfad3596246265f0
+spring-integration https://github.com/spring-projects/spring-integration.git 6207bca3bd74cee3f37e2e9df18156a89aa90ab9
+testng https://github.com/cbeust/testng.git d01a4f1079e61b3f6990ba55a1ef1138266baedd
+jackson-databind https://github.com/FasterXML/jackson-databind.git bd9bf1b89195051a127d0a946aaf95259058c0e8
+rest.li https://github.com/linkedin/rest.li.git 1d43edee1a9277324f75b4e90362dd6dc367ecdf
+Activiti https://github.com/Activiti/Activiti.git d9277212b01279079cfe71465e16398310d1c216
+k-9 https://github.com/k9mail/k-9.git cba9ca31aa6bdb8911a2787afc145c27cf366bec
+genie https://github.com/Netflix/genie e0c62669f1016522ea1faaf8b1a18833c65cda0e
+eucalyptus https://github.com/eucalyptus/eucalyptus 95e0cef57eba3da26ed798317900da4eeac44263
+graylog2-server https://github.com/Graylog2/graylog2-server.git 80a9e8e69f0635e489b076c7dac62a7ef45c409f
+core https://github.com/wicketstuff/core.git 49cada01fc2b71646ec36b1215d805c1c3a3b198
+gnucash-android https://github.com/codinguser/gnucash-android 2ad44adf6dd846aabf8883d41be3719b723bf4f1
+giraph https://github.com/apache/giraph.git 14a74297378dc1584efbb698054f0e8bff4f90bc
+ratpack https://github.com/ratpack/ratpack 29434f7ac6fd4b36a4495429b70f4c8163100332
+argouml https://github.com/argouml-tigris-org/argouml be952fcfa77451e594a41779db83e1a0d7221002
