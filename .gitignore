@@ -1,5 +1,5 @@
 *.pyc
-AbbrExpansion/*
+AbbrExpansion
 projects/*
 .DS_STORE
 result/*
