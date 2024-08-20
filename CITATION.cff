@@ -5,6 +5,8 @@ authors:
     given-names: Naoki
   - family-names: Osumi
     given-names: Yuki
+  - family-names: Hayashi
+    given-names: Shinpei
 title: RENAS toolkit
 url: https://github.com/salab/RENAS
 preferred-citation:
