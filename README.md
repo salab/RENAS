@@ -42,8 +42,8 @@ $ docker compose up -d
 $ docker compose exec renas bash
 ```
 You will have a shell to be ready to run RENAS.
-    -  If you'd like to use our tools, See [Basic Usage] section below.
-    -  If you'd like to reproduce (part of) our result, please see [Reproduction] section below.
+    -  If you'd like to use our tools, See [Basic Usage](#basic-usage) section below.
+    -  If you'd like to reproduce (part of) our result, please see [Reproduction](#reproduction) section below.
 
 7. Stop the tool
 ```
@@ -51,7 +51,7 @@ $ docker compose down
 ```
 
 ## Basic Usage
-This is a general explanation of how to use the RENAS tool. If you want to replicate our result, see [Reproduction] section below.
+This is a general explanation of how to use the RENAS tool. If you want to replicate our result, see [Reproduction](#reproduction) section below.
 
 ### Performing Recommendation
 
@@ -152,7 +152,7 @@ Evaluate whether priorities should be used, by taking into account both relation
 Evaluation metrics are MAP (Mean Average Precision), MRR (Mean Reciprocal Rank), and top-{1, 5, 10} Recall.
 
 
-## Reproduction of our results
+## Reproduction
 
 This is the reproduction process of the results presented in our paper.
 Download [the dataset](https://doi.org/10.5281/zenodo.13164183) and extract its contents (refer to as $Dataset).
