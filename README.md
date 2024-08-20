@@ -1,76 +1,83 @@
-# RENAS
+# RENAS toolkit
 
 ## Installation
 
 ### Requirements
-
-- Any environment
-  - Confirmed working at macOS (ProductVersion is 12.6.4)
-- docker
-  - Confirmed working at 24.0.2
-- docker compose plugin v2
+- [Docker](https://www.docker.com/)
+  - Confirmed working at Docker 24.0.2 on macOS 12.6.4
+- [Docker Compose](https://docs.docker.com/compose/) plugin v2
   - Confirmed working at v2.19.1
   - Docker can use at least **14GB** of memory
-- if you reproduce our result, you need **60GB** of free disk space or more
-
+- If you reproduce our result, you need **60GB** of free disk space or more
 
 ### Setup
+1. Clone the project repository.
+```
+$ git clone https://github.com/salab/RENAS
+$ cd RENAS
+```
 
-1. Get the source code for relationship analysis from the following URL and place it under Renas.
-https://github.com/salab/AbbrExpansion  
+2. Get the source code of [extended KgExpander](https://github.com/salab/AbbrExpansion) and place it under the RENAS directory.
+Note that its build will be conducted in a later process.
+```
+$ git clone https://github.com/salab/AbbrExpansion
+```
 This will result in a directory structure like this:
-<pre>
-  Renas
+```
+  RENAS
   ├ AbbrExpansion
   │  ├ code
-  │     ├ ... </pre>
+  │     ├ ...
+```
 
-2. Create a directory with the name of the project to be analyzed in the **projects** directory.
-For example, if the directories to be analyzed are named "temp" or "temp2", the directory structure will be as follows:
-<pre>
-  Renas
+3. Create a directory with the name of the project to be analyzed in the **projects** directory.
+For example, if the directories to be analyzed are named "proj1" or "proj2", the directory structure will be as follows:
+```
+  RENAS
   ├ projects
-  │  ├ temp
-  │  ├ temp2 </pre>
+  │  ├ proj1
+  │  ├ proj2
+```
 
-3. Create a directory called **repo** in the created directory and place the repository you want to analyze in it.
-
-<pre>
-  renas
+4. Create a directory called **repo** in the created directory and place the Git repository you want to analyze in it.
+```
+  RENAS
   ├ projects
-  │  ├ temp
+  │  ├ proj1
   │  │  ├ repo 
-  │  │    ├ hoge.java
   │  │    ├ foo.java
-  │  │    ├ huga
+  │  │    ├ bar.java
+  │  │    ├ baz
   │  │      ├ ... 
   │  │
-  │  ├ temp2 
+  │  ├ proj2
   │  │  ├ repo 
-  │  │    ├ far.java
-  │  │    ├ fee</pre>
-
-
-4. Start docker
-5. Run the following command.
+  │  │    ├ qux.java
+  │  │    ├ xyzzy
 ```
-docker compose up -d
-docker compose exec renas bash
+
+5. Start docker
+
+6. Run the following command.
 ```
-6. Use our tool
-    -  if you'd like to reproduce our result, please see "Reproduction" below.
-    -  if you'd like to use our tools, See "Usage" below.
+$ docker compose up -d
+$ docker compose exec renas bash
+```
 
-7. Stop the tool
-    - `docker compose down`
+7. Use our tool
+    -  if you'd like to reproduce our result, please see "Reproduction" section below.
+    -  if you'd like to use our tools, See "Usage" section below.
 
+8. Stop the tool
+```
+$ docker compose down
+```
 
 ## Reproduction
 
 The projects we used are as follows:
 <details><summary>17 projects</summary>
-
-() indicates the latest commit.
+(...) indicates the latest commit.
 
 **dataset which uses preliminary research (Section 3-E in paper)**
 1. [baasbox](https://github.com/baasbox/baasbox.git) (42a265288906070f031ce9e0e24aeeac26c3a952)
@@ -83,7 +90,7 @@ The projects we used are as follows:
 2. [jackson-databind](https://github.com/FasterXML/jackson-databind.git) (bd9bf1b89195051a127d0a946aaf95259058c0e8)
 3. [restli](https://github.com/linkedin/rest.li.git) (1d43edee1a9277324f75b4e90362dd6dc367ecdf)
 4. [activiti](https://github.com/Activiti/Activiti.git) (d9277212b01279079cfe71465e16398310d1c216)
-5. [thunderbird-android](https://github.com/k9mail/k-9.git)     (cba9ca31aa6bdb8911a2787afc145c27cf366bec)
+5. [thunderbird-android](https://github.com/k9mail/k-9.git) (cba9ca31aa6bdb8911a2787afc145c27cf366bec)
 6. [genie](https://github.com/Netflix/genie) (e0c62669f1016522ea1faaf8b1a18833c65cda0e)
 7. [eucalyptus](https://github.com/eucalyptus/eucalyptus) (95e0cef57eba3da26ed798317900da4eeac44263)
 8. [graylog2-server](https://github.com/Graylog2/graylog2-server.git) (80a9e8e69f0635e489b076c7dac62a7ef45c409f)
@@ -97,35 +104,32 @@ The projects we used are as follows:
 
 </details>
 
-
 1. As shown in "Setup", you create directories for the above 17 projects and place each repository in the repo.
 
-2. Place manualValidation.csv in the **ratpack** and **argouml** directories. This CSV file is located in Dataset/projects/{ratpack, argouml}
+2. Place "manualValidation.csv" in the **ratpack** and **argouml** directories. This CSV file is located in Dataset/projects/{ratpack, argouml}
 
 3. Run the following commands in order (from top to bottom: preliminary investigation, evaluation with the automatically identified dataset, evaluation with the manually validated dataset).
 ```
-bash renas/preliminaryResearch.sh
-bash renas/researchQuestion.sh
-bash renas/researchQuestionManually.sh
+# bash renas/preliminaryResearch.sh
+# bash renas/researchQuestion.sh
+# bash renas/researchQuestionManually.sh
 ```
 
 4. The results are placed in the result directory.
     - "Output File" contains a description of each file.
 
-
-
 ## Usage
 
 ### Perform Recommendation
-1. Enter the names of projects you'd like to recommend in projects.txt, separated by lines, as shown below.
+1. Enter the names of projects you'd like to recommend in "projects.txt", separated by lines, as shown below.
 ```
-temp
-temp2
-temp3
+proj1
+proj2
+proj3
 ```
 
-2. Create "projects/\*\*projects name\*\*/rename.json" and write the renames.  
-Recommendations are made based on the renames specified here. If you'd like to make recommendations based on the renames obtained from RefactoringMiner, there is no need to create it.  
+2. Create "projects/\*projects name\*/rename.json" and write the renames.  
+Recommendations are made based on the renames specified here. If you'd like to make recommendations based on the renames obtained from RefactoringMiner, there is no need to create it.
 The way to write rename.json is as follows.
 ```
 [
@@ -150,28 +154,20 @@ The way to write rename.json is as follows.
     }
 ]
 ```
-- "commit"  
-    Hash of commit
-- "oldname"  
-    identifier before renaming
-- "newname"
-    identifier after renaming
-- "typeOfIdentifier"
-    Type of Identifier  
-    you can specify "ClassName", "FieldName", "MethodName", "ParameterName" and "VariableName"
-- "line"
-    Line where the identifier is defined
-- "files"
-    The path from "repo" to the file where the identifier is defined
+- "commit": Hash of commit.
+- "oldname": identifier before renaming.
+- "newname": identifier after renaming.
+- "typeOfIdentifier": Type of Identifier. You can specify either of "ClassName", "FieldName", "MethodName", "ParameterName", and "VariableName".
+- "line": Line where the identifier is defined.
+- "files": The path from "repo" to the file where the identifier is defined.
 
 
 3. Run `sh renas/execRenas`. you can get "projects/\*\*project name\*\*/recommend.json.gz".
 
 ### Evaluation
 Create co-renamed sets from "projects/\*\*projects name\*\*/rename.json" and evaluate.
-1. Run `python3 -m renas.evaluator **option** projects.txt`.  
+1. Run `python3 -m renas.evaluator **option** projects.txt`.
 The available options are:
-
 | option | description |
 | ---- | ---- |
 | -pre | preliminary research. output is result/preliminary |
@@ -179,9 +175,7 @@ The available options are:
 | -rq2 | research question 2. output is result/rq2 |
 | -sim | research similarity. output is result/similarity |
 
-For example、if you'd like to research similarity and RQ1, you execution below command.  
-`python3 -m renas.evalutor -sim -rq1 projects.txt`
-
+For example, if you'd like to research similarity and RQ1, run the command below: `$ python3 -m renas.evalutor -sim -rq1 projects.txt`
 
 #### similarity
 Investigate the similarity of identifiers that are thought to have been co-renamed. (Section 3-E (1) in our paper)
@@ -189,22 +183,19 @@ Investigate the similarity of identifiers that are thought to have been co-renam
 #### preliminary research
 Investigate the performance of the proposed approach for each parameter (α) and threshold (β). (Section 3-E (3) in our paper)
 
-#### RQ1  
-RQ1: How well does the proposed approach perform?   
+#### RQ1 (How well does the proposed approach perform?)
 Evaluate the performance of our approach (RENAS) and other approaches (None, Relation, Relation + Normalize).
 The evaluation metrics are Precision, Recall, and F1-measure.
 
-#### RQ2
-RQ2: How does the performance vary depending on how to prioritize?  
+#### RQ2 (How does the performance vary depending on how to prioritize?)
 Evaluate whether priorities should be used, by taking into account both relationship and similarity.
 Evaluation metrics are MAP (Mean Average Precision), MRR (Mean Reciprocal Rank), and top-{1, 5, 10} Recall.
 
-
-## Source Files
+## Input File Format
 
 ### renas/repository_analyzer.py  
 By running the following command, the renames are extracted from RefactoringMiner. The relationships of source code are analyzed, and the identifiers are normalized.  
-`python3 -m renas.repository_analyzer projects/**project name**`  
+`python3 -m renas.repository_analyzer projects/**project name**`
 Input:
 - repository which you'd like to analyze
 
@@ -243,13 +234,11 @@ Output:
 
 The above programs primarily involve the "renas/approaches/" directory.
 
-
-
-## Output File
+## Output File Format
 
 ### result/{rq1, rq1_manual}/rq1.csv
 Evaluation result of RQ1
-- project name  
+- project name
 Evaluated project name 
 - approach  
 Approach name
@@ -260,47 +249,32 @@ Approach name
 Evaluation result of RQ2
 - alpha  
 Parameter which is used in culculating priority
-- MAP  
-Mean Average Precision
-- MRR  
-Mean Reciprocal Rank
+- MAP: Mean Average Precision
+- MRR: Mean Reciprocal Rank
 - top1 Recall
 - top5 Recall
 - top10 Recall
 
 ### result/similarity/similarity.csv
 Evaluation result of Section E-(1)
-- commit  
-Hash of commit
-- name1 file  
-File where name1 is defined
-- name1 line  
-Line where name1 is defined
-- name1   
-Identifier after normalization
-- name2 file  
-File where name2 is defined
-- name2 line  
-Line where name2 is defined
-- name2  
-Identifier after normalization
-- similarity  
-Similarity score calculated by Dice coefficient
-
+- commit: Hash of commit
+- name1 file: File where name1 is defined
+- name1 line: Line where name1 is defined
+- name1: Identifier after normalization
+- name2 file: File where name2 is defined
+- name2 line: Line where name2 is defined
+- name2: Identifier after normalization
+- similarity: Similarity score calculated by Dice coefficient
 
 ### result/preliminary/value_by_alpha_beta.csv
 Evaluation result of Section E-(3)
-- alpha  
-Parameter which is used in culculating priority
-- beta  
-Threshold of priority
+- alpha: Parameter which is used in culculating priority
+- beta: Threshold of priority
 - precision average
 - recall average
 - fscore average
 
-
 ### projects/\*project name\*/recommend.json.gz
-
 Each commit has the following structure:
 - goldset is the renaming database obtained from RefactoringMiner. 
 - "none", "relation", "retionshipNormalize", "renas" are recommendation results for each method. 
@@ -389,10 +363,7 @@ Below is the recommend_information.
 },
 ```
 
-
-
 ### projects/\*project name\*/archives/\*commit id\*/exTable.csv.gz
-
 | column | description |
 | ---- | ---- |
 | id | Unique ID attached to the identifier |
@@ -426,7 +397,7 @@ Below is the recommend_information.
 |normalized|　Normalized identifier |
 |parameterOverload| The relationship "parameterOverload"|
 
-### projects/**project name**/archives/**commit id**/classRecord.json.gz
+### projects/\*project name\*/archives/\*commit id\*/classRecord.json.gz
 A file that records the expanded abbreviations for each file. 
 For example, if "buf" is expanded to buffer four times in temp.java, it shows below.
 ```
@@ -438,23 +409,22 @@ For example, if "buf" is expanded to buffer four times in temp.java, it shows be
 }
 ```
 
-### projects/**project name**/archives/**commit id**/record.json.gz
+### projects/\*project name\*/archives/\*commit id\*/record.json.gz
 A file that records the abbreviations expanded within the project.
 
 ## Related Publications
 
 If you use or mention this tool in a scientific publication, we would appreciate citations to the following paper:
 
-Naoki Doi, Yuki Osumi and Shinpei Hayashi, "RENAS: Prioritizing Co-Renaming Opportunities of Identifiers," in Proceedings of the 40th IEEE International Conference on Software Maintenance and Evolution (ICSME 2024), pp. TBD, Arizona, United States, 2024, doi: TBD.
-Preprint:<span style="color:red"> <strong>TODO: input arxiv URL</strong> </span>
+Naoki Doi, Yuki Osumi, and Shinpei Hayashi, "RENAS: Prioritizing Co-Renaming Opportunities of Identifiers," in Proceedings of the 40th IEEE International Conference on Software Maintenance and Evolution (ICSME 2024), pp. TBD, Arizona, United States, 2024, doi: TBD. Preprint: http://arxiv.org/abs/2408.09716
 
 ```
 @inproceedings{doi-icsme2024,
-  author = {Naoki Doi, Yuki Osumi and Shinpei Hayashi},
+  author = {Naoki Doi and Yuki Osumi and Shinpei Hayashi},
+  title = {{RENAS}: Prioritizing Co-Renaming Opportunities of Identifiers}, 
   booktitle = {Proceedings of the 40th IEEE International Conference on Software Maintenance and Evolution (ICSME 2024)},
-  title = {RENAS: Prioritizing Co-Renaming Opportunities of Identifiers}, 
-  year = {2024},
   pages = {TBD},
-  doi = {TBD}
+  doi = {TBD},
+  year = {2024},
 }
 ```
