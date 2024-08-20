@@ -120,9 +120,12 @@ def recommend(repo, force):
                     f"commit elapsed time: {timedelta(seconds=(commit_end_time - commit_start_time))}"
                 )
     _logger.info("export result")
-
+    output_dict = {}
+    commit_list = sorted(list(result_dict.keys()))
+    for cc in commit_list:
+        output_dict[cc] = result_dict[cc]
     with gzip.open(output_path, "wt") as OAN:
-        simplejson.dump(result_dict, OAN, indent=4, ignore_nan=True)
+        simplejson.dump(output_dict, OAN, indent=4, ignore_nan=True)
 
     endTime = time.time()
     _logger.info(f"elapsed time: {timedelta(seconds=(endTime - startTime))}")
