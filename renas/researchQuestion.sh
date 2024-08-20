@@ -1,7 +1,7 @@
 #!/bin/bash
 
 args=""
-projects=("testng" "jackson-databind" "restli" "activiti" "thunderbird-android" "genie" "eucalyptus" "graylog2-server" "core" "gnucash-android" "giraph")
+projects=("testng" "jackson-databind" "rest.li" "Activiti" "k-9" "genie" "eucalyptus" "graylog2-server" "core" "gnucash-android" "giraph")
 
 for line in "${projects[@]}"
 do
