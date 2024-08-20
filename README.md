@@ -155,8 +155,14 @@ Evaluation metrics are MAP (Mean Average Precision), MRR (Mean Reciprocal Rank),
 ## Reproduction (lightweight)
 
 The reproduction process explained later requires a huge time (more than a week).
-In case that you want to just check the process of reproduction briefly, we provide a lightweight version of the reproduction, limiting the target project only to `baasbox`.
-If you want to try it, just run `bash evaluation-lightweight.sh`.
+In case that you want to just check the process of reproduction briefly, we provide a lightweight version of the reproduction (less than 1 hour), limiting the target project only to `baasbox`.
+If you want to try it, first prepare the `baasbox` repository outside the Docker environment:
+```
+$ mkdir -p projects/baasbox
+$ git clone https://github.com/baasbox/baasbox.git projects/baasbox/repo
+$ git --git-dir=projects/baasbox/repo reset --hard 42a265288906070f031ce9e0e24aeeac26c3a952
+```
+and just run `bash evaluation-lightweight.sh` inside the Docker environment.
 
 
 ## Reproduction
