@@ -131,7 +131,7 @@ If you want to try it, first prepare the `baasbox` repository outside the Docker
 ```
 $ mkdir -p projects/baasbox
 $ git clone https://github.com/baasbox/baasbox.git projects/baasbox/repo
-$ git --git-dir=projects/baasbox/repo reset --hard 42a265288906070f031ce9e0e24aeeac26c3a952
+$ (cd projects/baasbox/repo && git reset --hard 42a265288906070f031ce9e0e24aeeac26c3a952)
 ```
 and just run `bash evaluation-lightweight.sh` inside the Docker environment.
 Then you will see a file of `projects/baasbox/recommend.json.gz` as the recommendation result.
