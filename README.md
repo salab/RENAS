@@ -11,13 +11,13 @@
 - If you reproduce our result, you need **60GB** of free disk space or more
 
 ### Setup
-1. Clone the project repository.
+1. Clone the project repository. We refer this project directory as $RENAS.
 ```
 $ git clone https://github.com/salab/RENAS
 $ cd RENAS
 ```
 
-2. Get the source code of [extended KgExpander](https://github.com/salab/AbbrExpansion) and place it under the RENAS directory.
+2. Get the source code of [extended KgExpander](https://github.com/salab/AbbrExpansion) and place it under the $RENAS directory.
 Note that its build will be conducted in a later process.
 ```
 $ git clone https://github.com/salab/AbbrExpansion
@@ -30,7 +30,32 @@ This will result in a directory structure like this:
   │     ├ ...
 ```
 
-3. Create a directory with the name of the project to be analyzed in the **projects** directory.
+3. Prepare target project directories (see the sections below).
+
+4. Start docker
+```
+$ docker compose up -d
+```
+
+6. Use RENAS
+```
+$ docker compose exec renas bash
+```
+You will have a shell to be ready to run RENAS.
+    -  If you'd like to use our tools, See [Basic Usage] section below.
+    -  If you'd like to reproduce (part of) our result, please see [Reproduction] section below.
+
+7. Stop the tool
+```
+$ docker compose down
+```
+
+## Basic Usage
+This is a general explanation of how to use the RENAS tool. If you want to replicate our result, see [Reproduction] section below.
+
+### Performing Recommendation
+
+1. Create a directory with the name of the project to be analyzed in the **projects** directory.
 For example, if the directories to be analyzed are named "proj1" or "proj2", the directory structure will be as follows:
 ```
   RENAS
@@ -39,7 +64,7 @@ For example, if the directories to be analyzed are named "proj1" or "proj2", the
   │  ├ proj2
 ```
 
-4. Create a directory called **repo** in the created directory and place the Git repository you want to analyze in it.
+2. Create a directory called **repo** in the created directory and place the Git repository you want to analyze in it.
 ```
   RENAS
   ├ projects
@@ -56,80 +81,15 @@ For example, if the directories to be analyzed are named "proj1" or "proj2", the
   │  │    ├ xyzzy
 ```
 
-5. Start docker
-
-6. Run the following command.
-```
-$ docker compose up -d
-$ docker compose exec renas bash
-```
-
-7. Use our tool
-    -  if you'd like to reproduce our result, please see "Reproduction" section below.
-    -  if you'd like to use our tools, See "Usage" section below.
-
-8. Stop the tool
-```
-$ docker compose down
-```
-
-## Reproduction
-
-The projects we used are as follows:
-<details><summary>17 projects</summary>
-(...) indicates the latest commit.
-
-**dataset which uses preliminary research (Section 3-E in paper)**
-1. [baasbox](https://github.com/baasbox/baasbox.git) (42a265288906070f031ce9e0e24aeeac26c3a952)
-2. [cordova-plugin-local-notifications](https://github.com/katzer/cordova-plugin-local-notifications) (eb0ac58a8a8a9b4602f9c795c285abe089d5d10f)
-3. [morphia](https://github.com/mongodb/morphia.git) (cd0426c32b7c8426fbbcd4cbbfad3596246265f0)
-4. [spring-integration](https://github.com/spring-projects/spring-integration.git) (6207bca3bd74cee3f37e2e9df18156a89aa90ab9)
-
-**Automatically identified dataset**
-1. [testng](https://github.com/cbeust/testng.git) (d01a4f1079e61b3f6990ba55a1ef1138266baedd)
-2. [jackson-databind](https://github.com/FasterXML/jackson-databind.git) (bd9bf1b89195051a127d0a946aaf95259058c0e8)
-3. [restli](https://github.com/linkedin/rest.li.git) (1d43edee1a9277324f75b4e90362dd6dc367ecdf)
-4. [activiti](https://github.com/Activiti/Activiti.git) (d9277212b01279079cfe71465e16398310d1c216)
-5. [thunderbird-android](https://github.com/k9mail/k-9.git) (cba9ca31aa6bdb8911a2787afc145c27cf366bec)
-6. [genie](https://github.com/Netflix/genie) (e0c62669f1016522ea1faaf8b1a18833c65cda0e)
-7. [eucalyptus](https://github.com/eucalyptus/eucalyptus) (95e0cef57eba3da26ed798317900da4eeac44263)
-8. [graylog2-server](https://github.com/Graylog2/graylog2-server.git) (80a9e8e69f0635e489b076c7dac62a7ef45c409f)
-9. [core](https://github.com/wicketstuff/core.git) (49cada01fc2b71646ec36b1215d805c1c3a3b198)
-10. [gnucash-android](https://github.com/codinguser/gnucash-android) (2ad44adf6dd846aabf8883d41be3719b723bf4f1)
-11. [giraph](https://github.com/apache/giraph.git) (14a74297378dc1584efbb698054f0e8bff4f90bc)
-
-**Manually validated dataset**
-1. [ratpack](https://github.com/ratpack/ratpack) (29434f7ac6fd4b36a4495429b70f4c8163100332)
-2. [argouml](https://github.com/argouml-tigris-org/argouml) (be952fcfa77451e594a41779db83e1a0d7221002)
-
-</details>
-
-1. As shown in "Setup", you create directories for the above 17 projects and place each repository in the repo.
-
-2. Place "manualValidation.csv" in the **ratpack** and **argouml** directories. This CSV file is located in Dataset/projects/{ratpack, argouml}
-
-3. Run the following commands in order (from top to bottom: preliminary investigation, evaluation with the automatically identified dataset, evaluation with the manually validated dataset).
-```
-# bash renas/preliminaryResearch.sh
-# bash renas/researchQuestion.sh
-# bash renas/researchQuestionManually.sh
-```
-
-4. The results are placed in the result directory.
-    - "Output File" contains a description of each file.
-
-## Usage
-
-### Perform Recommendation
-1. Enter the names of projects you'd like to recommend in "projects.txt", separated by lines, as shown below.
+3. Enter the names of projects you'd like to recommend in "$RENAS/projects.txt", separated by lines, as shown below.
 ```
 proj1
 proj2
-proj3
 ```
 
-2. Create "projects/\*projects name\*/rename.json" and write the renames.  
-Recommendations are made based on the renames specified here. If you'd like to make recommendations based on the renames obtained from RefactoringMiner, there is no need to create it.
+4. Create "$RENAS/projects/\*projects name\*/rename.json" and store the information on renamings.
+Recommendations are made based on the renamings specified here.
+If you'd like to make recommendations based on the renamings obtained from RefactoringMiner, there is no need to create it.
 The way to write rename.json is as follows.
 ```
 [
@@ -161,35 +121,91 @@ The way to write rename.json is as follows.
 - "line": Line where the identifier is defined.
 - "files": The path from "repo" to the file where the identifier is defined.
 
-
-3. Run `sh renas/execRenas`. you can get "projects/\*\*project name\*\*/recommend.json.gz".
+5. Run `sh renas/execRenas`. you can get "projects/\*\*project name\*\*/recommend.json.gz".
 
 ### Evaluation
 Create co-renamed sets from "projects/\*\*projects name\*\*/rename.json" and evaluate.
 1. Run `python3 -m renas.evaluator **option** projects.txt`.
 The available options are:
-| option | description |
-| ---- | ---- |
-| -pre | preliminary research. output is result/preliminary |
-| -rq1 | research question 1. output is result/rq1|
-| -rq2 | research question 2. output is result/rq2 |
-| -sim | research similarity. output is result/similarity |
+
+| option | description | output |
+| ---- | ---- | ---- |
+| -pre | Preliminary study | result/preliminary |
+| -rq1 | RQ1 | result/rq1 |
+| -rq2 | RQ2 | result/rq2 |
+| -sim | Similarity study | result/similarity |
 
 For example, if you'd like to research similarity and RQ1, run the command below: `$ python3 -m renas.evalutor -sim -rq1 projects.txt`
 
 #### similarity
-Investigate the similarity of identifiers that are thought to have been co-renamed. (Section 3-E (1) in our paper)
+Investigate the similarity of identifiers that are thought to have been co-renamed. (Section III-E (1) in our paper)
 
 #### preliminary research
-Investigate the performance of the proposed approach for each parameter (α) and threshold (β). (Section 3-E (3) in our paper)
+Investigate the performance of the proposed approach for each parameter (α) and threshold (β). (Section III-E (3) in our paper)
 
-#### RQ1 (How well does the proposed approach perform?)
-Evaluate the performance of our approach (RENAS) and other approaches (None, Relation, Relation + Normalize).
+#### RQ1
+Evaluate the performance of RENAS and other approaches (None, Relation, Relation+Normalize).
 The evaluation metrics are Precision, Recall, and F1-measure.
 
-#### RQ2 (How does the performance vary depending on how to prioritize?)
+#### RQ2
 Evaluate whether priorities should be used, by taking into account both relationship and similarity.
 Evaluation metrics are MAP (Mean Average Precision), MRR (Mean Reciprocal Rank), and top-{1, 5, 10} Recall.
+
+
+## Reproduction of our results
+
+This is the reproduction process of the results presented in our paper.
+Download [the dataset](https://doi.org/10.5281/zenodo.13164183) and extract its contents (refer to as $Dataset).
+Some of them will be used for the inputs in the reproduction process.
+
+The projects we used are as follows:
+<details><summary>17 projects</summary>
+(...) indicates the latest commit.
+
+**dataset which uses preliminary research (Section 3-E in paper)**
+1. [baasbox](https://github.com/baasbox/baasbox.git) (42a265288906070f031ce9e0e24aeeac26c3a952)
+2. [cordova-plugin-local-notifications](https://github.com/katzer/cordova-plugin-local-notifications) (eb0ac58a8a8a9b4602f9c795c285abe089d5d10f)
+3. [morphia](https://github.com/mongodb/morphia.git) (cd0426c32b7c8426fbbcd4cbbfad3596246265f0)
+4. [spring-integration](https://github.com/spring-projects/spring-integration.git) (6207bca3bd74cee3f37e2e9df18156a89aa90ab9)
+
+**Automatically identified dataset**
+1. [testng](https://github.com/cbeust/testng.git) (d01a4f1079e61b3f6990ba55a1ef1138266baedd)
+2. [jackson-databind](https://github.com/FasterXML/jackson-databind.git) (bd9bf1b89195051a127d0a946aaf95259058c0e8)
+3. [restli](https://github.com/linkedin/rest.li.git) (1d43edee1a9277324f75b4e90362dd6dc367ecdf)
+4. [activiti](https://github.com/Activiti/Activiti.git) (d9277212b01279079cfe71465e16398310d1c216)
+5. [thunderbird-android](https://github.com/k9mail/k-9.git) (cba9ca31aa6bdb8911a2787afc145c27cf366bec)
+6. [genie](https://github.com/Netflix/genie) (e0c62669f1016522ea1faaf8b1a18833c65cda0e)
+7. [eucalyptus](https://github.com/eucalyptus/eucalyptus) (95e0cef57eba3da26ed798317900da4eeac44263)
+8. [graylog2-server](https://github.com/Graylog2/graylog2-server.git) (80a9e8e69f0635e489b076c7dac62a7ef45c409f)
+9. [core](https://github.com/wicketstuff/core.git) (49cada01fc2b71646ec36b1215d805c1c3a3b198)
+10. [gnucash-android](https://github.com/codinguser/gnucash-android) (2ad44adf6dd846aabf8883d41be3719b723bf4f1)
+11. [giraph](https://github.com/apache/giraph.git) (14a74297378dc1584efbb698054f0e8bff4f90bc)
+
+**Manually validated dataset**
+1. [ratpack](https://github.com/ratpack/ratpack) (29434f7ac6fd4b36a4495429b70f4c8163100332)
+2. [argouml](https://github.com/argouml-tigris-org/argouml) (be952fcfa77451e594a41779db83e1a0d7221002)
+</details>
+
+1. Create directories for the above 17 projects and place each repository in the repo. An easy way to do is to run `$ bash ./clone_repository.sh`.
+
+Note that the reproduction process requires a huge time (more than three days). If you want to just check a brief process of reproduction, use a limited set of projects. Overwrite with just a single line of `baasbox` to `project.txt` enables us to apply RENAS just to only `baasbox`, which is the lightest target, which takes less than 1 hour. 
+
+2. Place "manualValidation.csv" in the **ratpack** and **argouml** directories. This CSV file is located in $Dataset/projects/{ratpack, argouml}
+```
+$ cp $Dataset/projects/ratpack/manualValidation.csv projects/ratpack/
+$ cp $Dataset/projects/argouml/manualValidation.csv projects/argouml/
+```
+
+3. Run the following commands in the order of top to bottom: preliminary study, evaluation with the automatically identified dataset, evaluation with the manually validated dataset.
+```
+# bash renas/preliminaryResearch.sh
+# bash renas/researchQuestion.sh
+# bash renas/researchQuestionManually.sh
+```
+
+4. The results will be placed in the result directory.
+    - "Output File" contains a description of each file.
+
 
 ## Input File Format
 
