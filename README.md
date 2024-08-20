@@ -121,36 +121,7 @@ The way to write rename.json is as follows.
 - "line": Line where the identifier is defined.
 - "files": The path from "repo" to the file where the identifier is defined.
 
-5. Run `sh renas/execRenas`. you can get "projects/\*\*project name\*\*/recommend.json.gz".
-
-### Evaluation
-Create co-renamed sets from "projects/\*\*projects name\*\*/rename.json" and evaluate.
-1. Run `python3 -m renas.evaluator **option** projects.txt`.
-The available options are:
-
-| option | description | output |
-| ---- | ---- | ---- |
-| -pre | Preliminary study | result/preliminary |
-| -rq1 | RQ1 | result/rq1 |
-| -rq2 | RQ2 | result/rq2 |
-| -sim | Similarity study | result/similarity |
-
-For example, if you'd like to research similarity and RQ1, run the command below: `$ python3 -m renas.evalutor -sim -rq1 projects.txt`
-
-#### similarity
-Investigate the similarity of identifiers that are thought to have been co-renamed. (Section III-E (1) in our paper)
-
-#### preliminary research
-Investigate the performance of the proposed approach for each parameter (α) and threshold (β). (Section III-E (3) in our paper)
-
-#### RQ1
-Evaluate the performance of RENAS and other approaches (None, Relation, Relation+Normalize).
-The evaluation metrics are Precision, Recall, and F1-measure.
-
-#### RQ2
-Evaluate whether priorities should be used, by taking into account both relationship and similarity.
-Evaluation metrics are MAP (Mean Average Precision), MRR (Mean Reciprocal Rank), and top-{1, 5, 10} Recall.
-
+5. Run `sh renas/execRenas`. You can obtain "projects/\*\*project name\*\*/recommend.json.gz".
 
 ## Reproduction (lightweight)
 
@@ -210,9 +181,9 @@ $ cp $Dataset/projects/argouml/manualValidation.csv projects/argouml/
 
 3. Run the following commands in the order of top to bottom: preliminary study, evaluation with the automatically identified dataset, evaluation with the manually validated dataset.
 ```
-# bash renas/preliminaryResearch.sh
-# bash renas/researchQuestion.sh
-# bash renas/researchQuestionManually.sh
+# bash renas/preliminaryResearch.sh         # (may take ca. 2 days)
+# bash renas/researchQuestion.sh            # (may take ca. 1 week)
+# bash renas/researchQuestionManually.sh    # (may take ca. 2 days)
 ```
 
 4. The results will be placed in the result directory.
