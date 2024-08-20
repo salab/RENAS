@@ -11,7 +11,7 @@
 - If you reproduce our result, you need **60GB** of free disk space or more
 
 ### Setup
-1. Clone the project repository. We refer this project directory as $RENAS.
+1. Clone the project repository. We refer to this project directory as $RENAS.
 ```
 $ git clone https://github.com/salab/RENAS
 $ cd RENAS
@@ -152,6 +152,13 @@ Evaluate whether priorities should be used, by taking into account both relation
 Evaluation metrics are MAP (Mean Average Precision), MRR (Mean Reciprocal Rank), and top-{1, 5, 10} Recall.
 
 
+## Reproduction (lightweight)
+
+The reproduction process explained later requires a huge time (more than a week).
+In case that you want to just check the process of reproduction briefly, we provide a lightweight version of the reproduction, limiting the target project only to `baasbox`.
+If you want to try it, just run `bash evaluation-lightweight.sh`.
+
+
 ## Reproduction
 
 This is the reproduction process of the results presented in our paper.
@@ -186,11 +193,10 @@ The projects we used are as follows:
 2. [argouml](https://github.com/argouml-tigris-org/argouml) (be952fcfa77451e594a41779db83e1a0d7221002)
 </details>
 
-1. Create directories for the above 17 projects and place each repository in the repo. An easy way to do is to run `$ bash ./clone_repository.sh`.
+1. Create directories for the above 17 projects and place each repository in the repo.
+An easy way to do it is to run `$ bash ./clone_repository.sh`.
 
-Note that the reproduction process requires a huge time (more than three days). If you want to just check a brief process of reproduction, use a limited set of projects. Overwrite with just a single line of `baasbox` to `project.txt` enables us to apply RENAS just to only `baasbox`, which is the lightest target, which takes less than 1 hour. 
-
-2. Place "manualValidation.csv" in the **ratpack** and **argouml** directories. This CSV file is located in $Dataset/projects/{ratpack, argouml}
+3. Place "manualValidation.csv" in the **ratpack** and **argouml** directories. This CSV file is located in $Dataset/projects/{ratpack, argouml}
 ```
 $ cp $Dataset/projects/ratpack/manualValidation.csv projects/ratpack/
 $ cp $Dataset/projects/argouml/manualValidation.csv projects/argouml/
