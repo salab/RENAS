@@ -199,10 +199,10 @@ Input:
 - repository which you'd like to analyze
 
 Output:
-- projects/\*\*project name\*\*/archives/\*\*commit id\*\*/exTable.csv.gz
-- projects/\*\*project name\*\*/archives/\*\*commit id\*\*/classRecord.json.gz
-- projects/\*\*project name\*\*/archives/\*\*commit id\*\*/record.json.gz
-- projects/\*\*project name\*\*/goldset.json.gz
+- projects/\*project name\*/archives/\*commit id\*/exTable.csv.gz
+- projects/\*project name\*/archives/\*commit id\*/classRecord.json.gz
+- projects/\*project name\*/archives/\*commit id\*/record.json.gz
+- projects/\*project name\*/goldset.json.gz
 
 The above programs mainly involve the below files.
 - renas/refactoringminer.py  
@@ -223,13 +223,13 @@ By running the following command, four approaches (None, Relation, Relation + No
 `python3 -m renas.recommendation projects/**project name**`
 
 Input:
-- projects/\*\*project name\*\*/archives/\*\*commit id\*\*/exTable.csv.gz
-- projects/\*\*project name\*\*/archives/\*\*commit id\*\*/classRecord.json.gz
-- projects/\*\*project name\*\*/archives/\*\*commit id\*\*/record.json.gz
-- projects/\*\*project name\*\*/goldset.json.gz
+- projects/\*project name\*/archives/\*commit id\*/exTable.csv.gz
+- projects/\*project name\*/archives/\*commit id\*/classRecord.json.gz
+- projects/\*project name\*/archives/\*commit id\*/record.json.gz
+- projects/\*project name\*/goldset.json.gz
 
 Output:
-- projects/\*\*project name\*\*/recommend.json.gz
+- projects/\*project name\*/recommend.json.gz
 
 The above programs primarily involve the "renas/approaches/" directory.
 
