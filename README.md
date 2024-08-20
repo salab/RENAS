@@ -43,7 +43,7 @@ $ docker compose exec renas bash
 ```
 You will have a shell to be ready to run RENAS.
     -  If you'd like to use our tools, See [Basic Usage](#basic-usage) section below.
-    -  If you'd like to reproduce (part of) our result, please see [Reproduction](#reproduction) section below.
+    -  If you'd like to reproduce (part of) our result, please see [Reproduction (lightweight)](#reproduction-lightweight) or [Reproduction](#reproduction) sections below.
 
 7. Stop the tool
 ```
@@ -134,7 +134,7 @@ $ git clone https://github.com/baasbox/baasbox.git projects/baasbox/repo
 $ git --git-dir=projects/baasbox/repo reset --hard 42a265288906070f031ce9e0e24aeeac26c3a952
 ```
 and just run `bash evaluation-lightweight.sh` inside the Docker environment.
-
+Then you will see a file of `projects/baasbox/recommend.json.gz` as the recommendation result.
 
 ## Reproduction
 
