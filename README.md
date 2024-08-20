@@ -155,9 +155,9 @@ The projects we used are as follows:
 **Automatically identified dataset**
 1. [testng](https://github.com/cbeust/testng.git) (d01a4f1079e61b3f6990ba55a1ef1138266baedd)
 2. [jackson-databind](https://github.com/FasterXML/jackson-databind.git) (bd9bf1b89195051a127d0a946aaf95259058c0e8)
-3. [restli](https://github.com/linkedin/rest.li.git) (1d43edee1a9277324f75b4e90362dd6dc367ecdf)
-4. [activiti](https://github.com/Activiti/Activiti.git) (d9277212b01279079cfe71465e16398310d1c216)
-5. [thunderbird-android](https://github.com/k9mail/k-9.git) (cba9ca31aa6bdb8911a2787afc145c27cf366bec)
+3. [rest.li](https://github.com/linkedin/rest.li.git) (1d43edee1a9277324f75b4e90362dd6dc367ecdf)
+4. [Activiti](https://github.com/Activiti/Activiti.git) (d9277212b01279079cfe71465e16398310d1c216)
+5. [k-9](https://github.com/k9mail/k-9.git) (cba9ca31aa6bdb8911a2787afc145c27cf366bec)
 6. [genie](https://github.com/Netflix/genie) (e0c62669f1016522ea1faaf8b1a18833c65cda0e)
 7. [eucalyptus](https://github.com/eucalyptus/eucalyptus) (95e0cef57eba3da26ed798317900da4eeac44263)
 8. [graylog2-server](https://github.com/Graylog2/graylog2-server.git) (80a9e8e69f0635e489b076c7dac62a7ef45c409f)
