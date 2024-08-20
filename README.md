@@ -255,7 +255,7 @@ Parameter which is used in culculating priority
 - top10 Recall
 
 ### result/similarity/similarity.csv
-Evaluation result of Section E-(1)
+Evaluation result of Section III E-(1)
 - commit: Hash of commit
 - name1 file: File where name1 is defined
 - name1 line: Line where name1 is defined
@@ -266,7 +266,7 @@ Evaluation result of Section E-(1)
 - similarity: Similarity score calculated by Dice coefficient
 
 ### result/preliminary/value_by_alpha_beta.csv
-Evaluation result of Section E-(3)
+Evaluation result of Section III E-(3)
 - alpha: Parameter which is used in culculating priority
 - beta: Threshold of priority
 - precision average
