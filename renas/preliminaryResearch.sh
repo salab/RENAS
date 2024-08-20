@@ -5,9 +5,9 @@ projects=("baasbox" "cordova-plugin-local-notifications" "morphia" "spring-integ
 
 for line in "${projects[@]}"
 do
+python3 -m renas.repository_analyzer "projects/${line}"
+python3 -m renas.recommendation "projects/${line}"
 args="${args} projects/${line}"
 done
 
-python3 -m renas.repository_analyzer $args
-python3 -m renas.recommendation $args
 python3 -m renas.evaluator -sim -pre $args
