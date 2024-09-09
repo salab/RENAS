@@ -29,7 +29,7 @@ def set_argument():
 
 def set_logger(level):
     root_logger = getLogger()
-    root_logger.setLevel(level)
+    LOGGER.setLevel(level)
     handler = StreamHandler()
     handler.setLevel(level)
     formatter = Formatter("[%(asctime)s] %(name)s -- %(levelname)s : %(message)s")
@@ -87,7 +87,7 @@ def git_archive_wrapper(arg):
 
 
 def main(root: pathlib.Path, rename_data: pd.DataFrame, threshold: bool):
-    LOGGER = set_logger(INFO)
+    set_logger(INFO)
     try:
         rename_data = filter_data(rename_data, threshold)
         commits = rename_data["commit"].unique()
