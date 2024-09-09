@@ -136,6 +136,9 @@ $ (cd projects/baasbox/repo && git reset --hard 42a265288906070f031ce9e0e24aeeac
 and just run `bash evaluation-lightweight.sh` inside the Docker environment.
 Then you will see a file of `projects/baasbox/recommend.json.gz` as the recommendation result.
 
+This picture is the first thing that is displayed on the CUI when you run `projects/baasbox/recommend.json.gz`.　There is a warning in log4j, but you don't need to worry about it.
+![screenshot of CUI](https://github.com/salab/RENAS/blob/main/png/refactoringMiner.png)
+
 ## Reproduction
 
 This is the reproduction process of the results presented in our paper.
