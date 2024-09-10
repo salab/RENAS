@@ -1,6 +1,7 @@
 # RENAS toolkit
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13348547.svg)](https://doi.org/10.5281/zenodo.13348547)
+[![arXiv](https://img.shields.io/badge/arXiv-2408.09716-b31b1b.svg)](https://arxiv.org/abs/2408.09716)
 
 ## Installation
 
@@ -10,7 +11,7 @@
 - [Docker Compose](https://docs.docker.com/compose/) plugin v2
   - Confirmed working at v2.19.1
   - Docker can use at least **14GB** of memory
-- If you reproduce our result, you need **60GB** of free disk space or more
+- If you reproduce our result, you will need **60GB** of free disk space or more. If you just run the tool, probably just 4GB of free disk is needed (depending on the project to apply).
 
 ### Setup
 1. Clone the project repository. We refer to this project directory as $RENAS.
@@ -44,8 +45,9 @@ $ docker compose up -d
 $ docker compose exec renas bash
 ```
 You will have a shell to be ready to run RENAS.
-    -  If you'd like to use our tools, See [Basic Usage](#basic-usage) section below.
-    -  If you'd like to reproduce (part of) our result, please see [Reproduction (lightweight)](#reproduction-lightweight) or [Reproduction](#reproduction) sections below.
+
+-  If you'd like to use our tools, See [Basic Usage](#basic-usage) section below.
+-  If you'd like to reproduce (part of) our result, please see [Reproduction (lightweight)](#reproduction-lightweight) or [Reproduction](#reproduction) sections below.
 
 7. Stop the tool
 ```
@@ -123,7 +125,7 @@ The way to write rename.json is as follows.
 - "line": Line where the identifier is defined.
 - "files": The path from "repo" to the file where the identifier is defined.
 
-5. Run `sh renas/execRenas`. You can obtain "projects/\*\*project name\*\*/recommend.json.gz".
+5. Run `sh renas/execRenas`. You can obtain "projects/\*project name\*/recommend.json.gz".
 
 ## Reproduction (lightweight)
 
@@ -138,7 +140,8 @@ $ (cd projects/baasbox/repo && git reset --hard 42a265288906070f031ce9e0e24aeeac
 and just run `bash evaluation-lightweight.sh` inside the Docker environment.
 Then you will see a file of `projects/baasbox/recommend.json.gz` as the recommendation result.
 
-This picture is the first thing that is displayed on the CUI when you run `projects/baasbox/recommend.json.gz`.　There is a warning in log4j, but you don't need to worry about it.
+You may see the following result (snapshot of a console) when you run `evaluation-lightwehght.sh`.
+Note that the warnings in log4j may be produced when internally running RefactoringMiner, which could be ignored.
 ![screenshot of CUI](https://github.com/salab/RENAS/blob/main/png/refactoringMiner.png)
 
 ## Reproduction
@@ -176,7 +179,7 @@ The projects we used are as follows:
 </details>
 
 1. Create directories for the above 17 projects and place each repository in the repo.
-An easy way to do it is to run `$ bash ./clone_repository.sh`.
+An easy way to do it is to run `bash ./clone_repository.sh`.
 
 3. Place "manualValidation.csv" in the **ratpack** and **argouml** directories. This CSV file is located in $Dataset/projects/{ratpack, argouml}
 ```
@@ -203,7 +206,7 @@ By running the following command, the renames are extracted from RefactoringMine
 Input:
 - repository which you'd like to analyze
 
-Output folder:
+Output directory:
 - projects/\*project name\*/archives
 - projects/\*project name\*/archives/\*commit id\*
 
@@ -213,7 +216,7 @@ Output file:
 - projects/\*project name\*/archives/\*commit id\*/record.json.gz
 - projects/\*project name\*/goldset.json.gz
 
-The above programs mainly involve the below files.
+The above programs mainly involve the files below.
 - renas/refactoringminer.py  
     Run RefacotoringMiner
 - renas/refactoring/rename_extractor.py  
@@ -237,71 +240,69 @@ Input:
 - projects/\*project name\*/archives/\*commit id\*/record.json.gz
 - projects/\*project name\*/goldset.json.gz
 
-
 Output file:
 - projects/\*project name\*/recommend.json.gz
 
 The above programs primarily involve the "renas/approaches/" directory.
-
 
 ### renas/evaluator.py
 By running the following command, recommended results obtained by four approaches (None, Relation, Relation + Normalize, RENAS) are evaluated based on co-renamings.  
 `python3 -m renas.evaluator **option** projects/**project name**`   
 
 The options are:
-| option | description |
-| ---- | ---- |
-| -pre | preliminary research. output is result/preliminary |
-| -rq1 | research question 1. output is result/rq1|
-| -rq2 | research question 2. output is result/rq2 |
-| -manual | evaluation by using the manually validated dataset. Use with -rq1 and/or -rq2|
-| -sim | research similarity. output is result/similarity |
+| option | description | Output |
+| ---- | ---- | ---- |
+| -pre | Preliminary study | result/preliminary |
+| -rq1 | Research question 1 | result/rq1 |
+| -rq2 | Research question 2 | result/rq2 |
+| -manual | Evaluation with the manually validated dataset. Use with -rq1 and/or -rq2 | -  |
+| -sim | Similarity study | result/similarity |
 
-This script is executed by the following three shell scripts:
-- renas/preliminaryResearch.sh  (Executing with -sim -pre option)
-- renas/researchQuestion.sh (Executing with -rq1 -rq2 option)         
-- renas/researchQuestionManually.sh  (Executing with -manual -rq1 -rq2 option)
+This script is executed by the following shell scripts:
+- renas/preliminaryResearch.sh (Executing with `-sim -pre`)
+- renas/researchQuestion.sh (Executing with `-rq1 -rq2`)
+- renas/researchQuestionManually.sh (Executing with `-manual -rq1 -rq2`)
 
 Input: 
 - projects/\*project name\*/recommend.json.gz
-- projects/\*project name\*/manualValidation.csv (if you choose -manual)
+- projects/\*project name\*/manualValidation.csv (if you choose `-manual`)
 
 Output folder (option):
 - result
-- result/preliminary (-pre)
-- result/rq1 (-rq1)
-- result/rq2 (-rq2)
-- result/rq1_manual (-rq1 and -manual)
-- result/rq2_manual (rq2 and -manual)
-- result/similarity (-sim)
+- result/preliminary (`-pre`)
+- result/rq1 (`-rq1`)
+- result/rq2 (`-rq2`)
+- result/rq1_manual (`-rq1 -manual`)
+- result/rq2_manual (`-rq2 -manual`)
+- result/similarity (`-sim`)
 
 Output file (option):
-- result/preliminary/values_by_alpha_beta.csv (-pre)
-- result/rq1/rq1.csv (-rq1)
-- result/rq2/ranking_evaluation.csv (-rq2)
-- result/rq1_manual/rq1.csv (-rq1 and -manual)
-- result/rq2_manual/ranking_evaluation.csv (-rq2 and -manual)
-- result/similarity/similarity.csv (-sim)
+- result/preliminary/values_by_alpha_beta.csv (`-pre`)
+- result/rq1/rq1.csv (`-rq1`)
+- result/rq2/ranking_evaluation.csv (`-rq2`)
+- result/rq1_manual/rq1.csv (`-rq1 -manual`)
+- result/rq2_manual/ranking_evaluation.csv (`-rq2 -manual`)
+- result/similarity/similarity.csv (`-sim`)
 
 The above programs primarily involve the "renas/evaluation/" directory.
 
 ## Output File Format
 
 ### result/{rq1, rq1_manual}/rq1.csv
-Generated by renas/evaluator.py  
+(Generated by renas/evaluator.py)
+
 Evaluation result of RQ1
-- project name
-Evaluated project name 
-- approach  
-Approach name
+- project name: Evaluated project name 
+- approach: Approach name
 - precision average  
 - recall average
 - fscore average
+
 ### result/{rq2, rq2_manual}/ranking_evaluation.csv
-Generated by renas/evaluator.py   
+(Generated by renas/evaluator.py)
+
 Evaluation result of RQ2
-- alpha  
-Parameter which is used in culculating priority
+- alpha: Parameter which is used in culculating priority
 - MAP: Mean Average Precision
 - MRR: Mean Reciprocal Rank
 - top1 Recall
@@ -309,7 +310,8 @@ Parameter which is used in culculating priority
 - top10 Recall
 
 ### result/similarity/similarity.csv
-Generated by renas/evaluator.py  
+(Generated by renas/evaluator.py)
+
 Evaluation result of Section III E-(1)
 - commit: Hash of commit
 - name1 file: File where name1 is defined
@@ -321,7 +323,8 @@ Evaluation result of Section III E-(1)
 - similarity: Similarity score calculated by Dice coefficient
 
 ### result/preliminary/value_by_alpha_beta.csv
-Generated by renas/evaluator.py   
+(Generated by renas/evaluator.py)
+
 Evaluation result of Section III E-(3)
 - alpha: Parameter which is used in culculating priority
 - beta: Threshold of priority
@@ -330,7 +333,8 @@ Evaluation result of Section III E-(3)
 - fscore average
 
 ### projects/\*project name\*/recommend.json.gz
-Generated by renas/recommendation.py  
+(Generated by renas/recommendation.py)
+
 Each commit has the following structure:
 - goldset is the renaming database obtained from RefactoringMiner. 
 - "none", "relation", "retionshipNormalize", "renas" are recommendation results for each method. 
@@ -420,42 +424,44 @@ Below is the recommend_information.
 ```
 
 ### projects/\*project name\*/archives/\*commit id\*/exTable.csv.gz
-Generated by renas/repository_analyzer.py  
+(Generated by renas/repository_analyzer.py)
+
 | column | description |
 | ---- | ---- |
 | id | Unique ID attached to the identifier |
-|files| File where the identifier is defined |
-|line| Line where the identifier is defined  | 
-|name| The identifier name | 
-|typeOfIdentifier| Type of identifier | 
-|subclass| Part of the relationship "parent" (an class → its subclass) |
-|descendant| Part of the relationship "ancestor" (an class → the subclass of its subclass or more) |
-|parent| Part of the relationship "parent"(an class → its parent class) |
-|ancestor| Part of the relationship "ancestor" (an class → its ancestor class) |
-|method| The relationship "method" |
-|field| The relationship "field" |
-|sibling-members| The relationship "sibling-members" |
-|comment| comment |
-|type| The relationship "type" |
-|enclosingClass| The relationship "enclosingClass" |
-|assignmentEquation| The relationship "assignmentEquation" |
-|pass| The relationship "pass" |
-|argumentToParameter| Part of the relationship "argument"(argument of a method → parameter of the method)
-|parameter| The relationship "parameter" |
-|enclosingMethod| The relationship "enclosingMethod" |
-|parameterToArgument| Part of the relationship "argument"(parameter of a method → argument of the method) |
-|split| Identifier after splitting
-|delimiter| Delimiter character
-|case| Case of words
-|pattern| Naming pattern of identifier
-|heuristic| Abbreviated forms
-|expanded| Identifier after expanding abbreviations
-|postag| POStag for each word
-|normalized|　Normalized identifier |
-|parameterOverload| The relationship "parameterOverload"|
+| files| File where the identifier is defined |
+| line | Line where the identifier is defined | 
+| name | The identifier name | 
+| typeOfIdentifier | Type of identifier | 
+| subclass | Part of the relationship "parent" (a class → its subclass) |
+| descendant | Part of the relationship "ancestor" (a class → the subclass of its subclass or more) |
+| parent | Part of the relationship "parent" (a class → its parent class) |
+| ancestor | Part of the relationship "ancestor" (a class → its ancestor class) |
+| method | The relationship "method" |
+| field | The relationship "field" |
+| sibling-members | The relationship "sibling-members" |
+| comment | comment |
+| type | The relationship "type" |
+| enclosingClass | The relationship "enclosingClass" |
+| assignmentEquation | The relationship "assignmentEquation" |
+| pass | The relationship "pass" |
+| argumentToParameter | Part of the relationship "argument" (argument of a method → parameter of the method) |
+| parameter | The relationship "parameter" |
+| enclosingMethod | The relationship "enclosingMethod" |
+| parameterToArgument | Part of the relationship "argument" (parameter of a method → argument of the method) |
+| split | Identifier after splitting |
+| delimiter | Delimiter character |
+| case | Case of words |
+| pattern | Naming pattern of identifier |
+| heuristic | Abbreviated forms |
+| expanded | Identifier after expanding abbreviations |
+| postag | POS tag for each word |
+| normalized |　Normalized identifier |
+| parameterOverload | The relationship "parameterOverload"|
 
 ### projects/\*project name\*/archives/\*commit id\*/classRecord.json.gz
-Generated by renas/repository_analyzer.py  
+(Generated by renas/repository_analyzer.py)
+
 A file that records the expanded abbreviations for each file. 
 For example, if "buf" is expanded to buffer four times in temp.java, it shows below.
 ```
@@ -468,11 +474,11 @@ For example, if "buf" is expanded to buffer four times in temp.java, it shows be
 ```
 
 ### projects/\*project name\*/archives/\*commit id\*/record.json.gz
-Generated by renas/repository_analyzer.py  
+(Generated by renas/repository_analyzer.py)
+
 A file that records the abbreviations expanded within the project.
 
 ## Related Publications
-
 If you use or mention this tool in a scientific publication, we would appreciate citations to the following paper:
 
 Naoki Doi, Yuki Osumi, and Shinpei Hayashi, "RENAS: Prioritizing Co-Renaming Opportunities of Identifiers," in Proceedings of the 40th IEEE International Conference on Software Maintenance and Evolution (ICSME 2024), pp. TBD, Arizona, United States, 2024, doi: TBD. Preprint: http://arxiv.org/abs/2408.09716
