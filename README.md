@@ -10,8 +10,9 @@
   - Confirmed working at Docker 24.0.2 on macOS 12.6.4
 - [Docker Compose](https://docs.docker.com/compose/) plugin v2
   - Confirmed working at v2.19.1
-  - Docker can use at least **14GB** of memory
-- If you reproduce our result, you will need **60GB** of free disk space or more. If you just run the tool, probably just 4GB of free disk is needed (depending on the project to apply).
+  - If you reproduce our result, docker can use at least **14GB** of memory. If you just run the tool, at least 4GB of memory is needed (depending on the project to apply).
+
+- If you reproduce our result, you will need **60GB** of free disk space or more. If you just run the tool, probably just 5GB of free disk is needed (depending on the project to apply).
 
 ### Setup
 1. Clone the project repository. We refer to this project directory as $RENAS.
@@ -255,7 +256,7 @@ The options are:
 | -pre | Preliminary study | result/preliminary |
 | -rq1 | Research question 1 | result/rq1 |
 | -rq2 | Research question 2 | result/rq2 |
-| -manual | Evaluation with the manually validated dataset. Use with -rq1 and/or -rq2 | -  |
+| -manual | Evaluation with the manually validated dataset. Use with -rq1 and/or -rq2 | result/rq1_manual and/or result/rq2_manual  |
 | -sim | Similarity study | result/similarity |
 
 This script is executed by the following shell scripts:
@@ -267,7 +268,7 @@ Input:
 - projects/\*project name\*/recommend.json.gz
 - projects/\*project name\*/manualValidation.csv (if you choose `-manual`)
 
-Output folder (option):
+Output directory (option):
 - result
 - result/preliminary (`-pre`)
 - result/rq1 (`-rq1`)
