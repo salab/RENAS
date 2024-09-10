@@ -7,7 +7,7 @@
 
 ### Requirements
 - [Docker](https://www.docker.com/)
-  - Confirmed working at Docker 24.0.2 on macOS 12.6.4
+  - Confirmed working at Docker 24.0.2 on macOS 12.6.4 and Docker 20.10.22 on Linux (Ubuntu 22.04 LTS) 
 - [Docker Compose](https://docs.docker.com/compose/) plugin v2
   - Confirmed working at v2.19.1
   - If you reproduce our result, docker can use at least **14GB** of memory. If you just run the tool, at least 4GB of memory is needed (depending on the project to apply).
