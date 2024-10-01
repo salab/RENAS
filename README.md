@@ -11,6 +11,7 @@
 - [Docker Compose](https://docs.docker.com/compose/) plugin v2
   - Confirmed working at v2.19.1
   - If you reproduce our result, docker can use at least **14GB** of memory. If you just run the tool, at least 4GB of memory is needed (depending on the project to apply).
+- [Git](https://git-scm.com/)
 
 - If you reproduce our result, you will need **60GB** of free disk space or more. If you just run the tool, probably just 5GB of free disk is needed (depending on the project to apply).
 
@@ -21,16 +22,18 @@ $ git clone https://github.com/salab/RENAS
 $ cd RENAS
 ```
 
-2. Get the source code of [extended KgExpander](https://github.com/salab/AbbrExpansion) and place it under the $RENAS directory.
-Note that its build will be conducted in a later process.
+2. Run the pre-setup script.
 ```
-$ git clone https://github.com/salab/AbbrExpansion
+$ ./setup.sh
 ```
 This will result in a directory structure like this:
 ```
   RENAS
   ├ AbbrExpansion
   │  ├ code
+  │     ├ ...
+  ├ RefactoringMiner
+  │  ├ RefactoringMiner-2.0.2
   │     ├ ...
 ```
 
