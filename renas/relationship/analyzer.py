@@ -38,13 +38,12 @@ def set_logger(level):
     return root_logger
 
 
-def filter_data(data, threshold):
+def filter_data(data, threshold: int):
     LOGGER.info("filter data")
     commits = data.groupby("commit").size()
-    if threshold:
-        commits = commits[commits > 3]
-    else:
-        commits = commits[commits > 1]
+
+    commits = commits[commits > threshold]
+    LOGGER.info(f"threshold = more than {threshold} renames")
     LOGGER.info(f"total {commits.sum()} renames")
     LOGGER.info(f"pick {len(commits)} commits")
     return data[data["commit"].isin(commits.index)]
@@ -86,7 +85,7 @@ def git_archive_wrapper(arg):
     return git_archive(*arg)
 
 
-def main(root: pathlib.Path, rename_data: pd.DataFrame, threshold: bool):
+def main(root: pathlib.Path, rename_data: pd.DataFrame, threshold: int):
     set_logger(INFO)
     try:
         rename_data = filter_data(rename_data, threshold)

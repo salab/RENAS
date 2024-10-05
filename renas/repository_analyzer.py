@@ -15,9 +15,9 @@ def set_argument():
     )
     parser.add_argument(
         "-threshold",
-        help="use commit which has more than 3 renames",
-        action="store_true",
-        default=False,
+        help="use commit which has more than specifying renames",
+        action="store",
+        default=0,
     )
     parser.add_argument(
         "-f",
@@ -38,7 +38,7 @@ def main(root, args):
         dump(root, rename_data)
     else:
         rename_data = pd.read_json(rename_path, orient="records")
-    analyzer.main(root, rename_data, args.threshold)
+    analyzer.main(root, rename_data, int(args.threshold))
 
 
 def dump(root, data: pd.DataFrame):
