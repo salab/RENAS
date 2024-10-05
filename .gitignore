@@ -1,4 +1,5 @@
 *.pyc
+RefactoringMiner
 AbbrExpansion
 projects/*
 .DS_STORE

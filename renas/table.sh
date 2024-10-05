@@ -24,10 +24,10 @@ echo "start creating table."
 #fi
 
 if [ ! -e "${JARPARSEPATH}/${PARSECODE}" ]; then
-    gradle shadowJar -b "${JARPARSEPATH}/build.gradle"
+    "${JARPARSEPATH}/gradlew" shadowJar -b "${JARPARSEPATH}/build.gradle"
 fi
 if [ ! -e "${JARSEMANTICPATH}/${SEMANTICEXPAND}" ]; then
-    gradle shadowJar -b "${JARSEMANTICPATH}/build.gradle"
+    "${JARPARSEPATH}/gradlew" shadowJar -b "${JARSEMANTICPATH}/build.gradle"
 fi
 
 # create table
